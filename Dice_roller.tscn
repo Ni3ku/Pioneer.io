@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3 uid="uid://bsb3ptdccfr11"]
+
+[ext_resource type="Script" uid="uid://blwti5vxhjua7" path="res://dice_roller.gd" id="1_6s4q2"]
+[ext_resource type="Texture2D" uid="uid://mb6ts3pp2x4v" path="res://Tile.png" id="1_gbjce"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_b4iy7"]
+texture = ExtResource("1_gbjce")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_b4iy7"]
+tile_shape = 3
+tile_size = Vector2i(64, 64)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_b4iy7")
+
+[node name="Game" type="Node2D"]
+
+[node name="Grid" type="Node2D" parent="."]
+
+[node name="HexGrid" type="TileMapLayer" parent="Grid"]
+tile_set = SubResource("TileSet_b4iy7")
+
+[node name="DiceRoller" type="Node2D" parent="."]
+script = ExtResource("1_6s4q2")
+
+[node name="RollDice" type="Button" parent="DiceRoller"]
+offset_left = 1046.0
+offset_top = 544.0
+offset_right = 1144.0
+offset_bottom = 639.0
+text = "Roll Dice"
+metadata/_edit_use_anchors_ = true
+
+[node name="DiceResult" type="Label" parent="DiceRoller"]
+offset_left = 883.0
+offset_top = 604.0
+offset_right = 983.0
+offset_bottom = 645.0
+text = "Test"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="DiceRoller/RollDice" to="DiceRoller" method="_on_pressed"]
