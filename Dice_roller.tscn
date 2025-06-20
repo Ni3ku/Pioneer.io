@@ -1,10 +1,47 @@
-[gd_scene load_steps=5 format=3 uid="uid://bsb3ptdccfr11"]
+[gd_scene load_steps=18 format=3 uid="uid://bsb3ptdccfr11"]
 
 [ext_resource type="Script" uid="uid://blwti5vxhjua7" path="res://dice_roller.gd" id="1_6s4q2"]
+[ext_resource type="Script" uid="uid://eg8f0ksu4hl2" path="res://BuildBoard.gd" id="1_b4iy7"]
 [ext_resource type="Texture2D" uid="uid://mb6ts3pp2x4v" path="res://Tile.png" id="1_gbjce"]
+[ext_resource type="Texture2D" uid="uid://bnpknwwrqkw2m" path="res://Tile_Brick.png" id="2_e0mjt"]
+[ext_resource type="Texture2D" uid="uid://c36qtoa25kecs" path="res://Tile_Ore.png" id="3_hmc1a"]
+[ext_resource type="Texture2D" uid="uid://dfhe0lk0ot1x7" path="res://Tile_Sheep.png" id="4_2cxco"]
+[ext_resource type="Texture2D" uid="uid://cwo3tgxdm60uf" path="res://Tile_Wheat.png" id="5_8l20m"]
+[ext_resource type="Texture2D" uid="uid://bxob1bekyw72f" path="res://Tile_Wood.png" id="6_vhglr"]
+[ext_resource type="Texture2D" uid="uid://csprmdo4x41ny" path="res://Tile_Desert.png" id="7_hmc1a"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_b4iy7"]
 texture = ExtResource("1_gbjce")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2hrdi"]
+texture = ExtResource("2_e0mjt")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hcnnm"]
+texture = ExtResource("3_hmc1a")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_42foh"]
+texture = ExtResource("4_2cxco")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dfkw2"]
+texture = ExtResource("5_8l20m")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3y746"]
+texture = ExtResource("6_vhglr")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2cxco"]
+texture = ExtResource("7_hmc1a")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 
@@ -13,6 +50,12 @@ tile_shape = 3
 tile_size = Vector2i(64, 64)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_b4iy7")
+sources/1 = SubResource("TileSetAtlasSource_2hrdi")
+sources/2 = SubResource("TileSetAtlasSource_hcnnm")
+sources/3 = SubResource("TileSetAtlasSource_42foh")
+sources/4 = SubResource("TileSetAtlasSource_dfkw2")
+sources/5 = SubResource("TileSetAtlasSource_3y746")
+sources/6 = SubResource("TileSetAtlasSource_2cxco")
 
 [node name="Game" type="Node2D"]
 
@@ -20,6 +63,7 @@ sources/0 = SubResource("TileSetAtlasSource_b4iy7")
 
 [node name="HexGrid" type="TileMapLayer" parent="Grid"]
 tile_set = SubResource("TileSet_b4iy7")
+script = ExtResource("1_b4iy7")
 
 [node name="DiceRoller" type="Node2D" parent="."]
 script = ExtResource("1_6s4q2")
