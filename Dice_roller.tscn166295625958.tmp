@@ -125,11 +125,11 @@ sources/5 = SubResource("TileSetAtlasSource_cea11")
 sources/3 = SubResource("TileSetAtlasSource_qkik5")
 sources/4 = SubResource("TileSetAtlasSource_r46hg")
 sources/6 = SubResource("TileSetAtlasSource_jnlkn")
+sources/7 = SubResource("TileSetAtlasSource_4hygs")
+sources/8 = SubResource("TileSetAtlasSource_v4rdc")
 sources/11 = SubResource("TileSetAtlasSource_qrdgt")
 sources/12 = SubResource("TileSetAtlasSource_ova5y")
 sources/10 = SubResource("TileSetAtlasSource_16eny")
-sources/9 = SubResource("TileSetAtlasSource_v4rdc")
-sources/8 = SubResource("TileSetAtlasSource_4hygs")
 
 [node name="Game" type="Node2D"]
 
