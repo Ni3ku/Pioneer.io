@@ -43,11 +43,14 @@ func place_preset_resources(coordinates_array: Array[Vector3i]):
 
 func randomize_resources(coordinates_array: Array[Vector3i]):
 	var undetermined_resource_vectors: Array[Vector2i]
+	var desert_count = 0
 	for resource in coordinates_array:
 		if resource.z == 0:
 			undetermined_resource_vectors.append(Vector2i(resource.x, resource.y))
+		if resource.z == 6:
+			desert_count += 1
 
-	var leftover = undetermined_resource_vectors.size() % 5 - 1
+	var leftover = undetermined_resource_vectors.size() % 5
 	var distrobution = floor(undetermined_resource_vectors.size() / 5)
 	var current_resource = 1
 	var preserved_coordinates: Array[Vector2i]
@@ -57,12 +60,12 @@ func randomize_resources(coordinates_array: Array[Vector3i]):
 		for i in range(distrobution - 1, -1, -1):
 			tile_grid.set_cell(shuffled_coordinates[i], resource, Vector2i(0,0))
 			shuffled_coordinates.remove_at(i)
-	tile_grid.set_cell(shuffled_coordinates[0], 6, Vector2i(0,0))
-	shuffled_coordinates.remove_at(0)
 	var i = 1
 	for final_set in leftover:
 		tile_grid.set_cell(shuffled_coordinates[final_set], i, Vector2i(0,0))
 		i += 1
+	if desert_count == 0:
+		tile_grid.set_cell(shuffled_coordinates[0], 6, Vector2i(0,0))
 
 func randomize_numbers(coordinates_array: Array[Vector3i]):
 	for resource in range(coordinates_array.size() - 1, -1, -1):
@@ -89,84 +92,74 @@ func randomize_numbers(coordinates_array: Array[Vector3i]):
 			number_Grid.set_cell(shuffled_coordinates[0], number_tile_set[i], Vector2i(0,0))
 		shuffled_coordinates.remove_at(0)
 
-func get_neighbors(tilemap: TileMapLayer, coord: Vector2i):
-	var neighbors = []
-	for dir in neighbor_directions:
-		neighbors.append(tilemap.get_neighbor_cell(coord, dir))
-	return neighbors
+#func get_neighbors(tilemap: TileMapLayer, coord: Vector2i):
+	#var neighbors = []
+	#for dir in neighbor_directions:
+		#neighbors.append(tilemap.get_neighbor_cell(coord, dir))
+	#return neighbors
 
 func sort_numbers(coordinates_array: Array[Vector2i]):
 	var tile_ids = []
-	for coord in coordinates_array:
-		tile_ids.append(number_Grid.get_cell_source_id(coord))
-	
-	var max_attempts = coordinates_array.size() * 2
-	var attempts = 0;
-	
-	while attempts < max_attempts:
-		var had_conflicts = false
-		
-		for i in coordinates_array.size():
-			var current_id = tile_ids[i]
-			var neighbours = get_neighbors(number_Grid, coordinates_array[i])
+	for coord in range(coordinates_array.size() - 1, -1, -1):
+		if number_Grid.get_cell_source_id(coordinates_array[coord]) != -1:
+			tile_ids.append(number_Grid.get_cell_source_id(coordinates_array[coord]))
+		else:
+			coordinates_array.remove_at(coord)
 			
-			for neighbour_coord in neighbours:
-				var neighbour_index = coordinates_array.find(neighbour_coord)
-				if (neighbour_index != -1 and tile_ids[neighbour_index] == current_id) or ((current_id == 6 or current_id == 8) and (tile_ids[neighbour_index] == 6 or tile_ids[neighbour_index] == 8)):
-					had_conflicts = true
-					
-					for j in range(coordinates_array.size() - 1, -1, -1):
-						if i == j:
-							continue
-							
-						var potential_id = tile_ids[j]
-						var is_good_swap = true
-						
-						var j_neighbours = get_neighbors(number_Grid, coordinates_array[j])
-						for j_neighbour in j_neighbours:
-							var j_neighbour_index = coordinates_array.find(j_neighbour)
-							if (j_neighbour_index != -1 and tile_ids[j_neighbour_index] == current_id) or ((current_id == 6 or current_id == 8) and (tile_ids[j_neighbour_index] == 6 or tile_ids[j_neighbour_index] == 8)):
-								
-								is_good_swap = false
-								break
-							
-						if is_good_swap:
-							tile_ids[i] = potential_id
-							tile_ids[j] = current_id
-							break
-							
-					break
-					
-		if not had_conflicts:
-			for i in range(coordinates_array.size()):
-				number_Grid.set_cell(coordinates_array[i], tile_ids[i], Vector2i(0,0))
-			return
-		attempts += 1
+	var shuffled_coordinate_array= coordinates_array.duplicate()
+	shuffled_coordinate_array.shuffle()
 		
-	for i in range(coordinates_array.size()):
-		number_Grid.set_cell(coordinates_array[i], tile_ids[i], Vector2i(0,0))
-	print("Could not resolve conflicts")
+	for i in range(tile_ids.size()):
+		var current_id = tile_ids[i]
+		var i_neighbours = number_Grid.get_surrounding_cells(shuffled_coordinate_array[i])
+		var i_nighbour_ids = []
+		
+		for i_neighbour in i_neighbours:
+			i_nighbour_ids.append(number_Grid.get_cell_source_id(i_neighbour))
+		
+		for i_nighbour_id in i_nighbour_ids:
+			if (i_nighbour_id == current_id or ((current_id == 6 or current_id == 8) and (i_nighbour_id == 6 or i_nighbour_id == 8))):
+				var is_good_swap = true
+			
+				for j in range(tile_ids.size()):
+						
+					var potential_id = tile_ids[j]
+					is_good_swap = true
+					
+					var j_neighbours = number_Grid.get_surrounding_cells(shuffled_coordinate_array[j])
+					var j_nighbour_ids = []
 
+					for j_neighbour in j_neighbours:
+						j_nighbour_ids.append(number_Grid.get_cell_source_id(j_neighbour))
+						
+					if (potential_id in i_nighbour_ids or current_id in j_nighbour_ids):
+						is_good_swap = false
+						break
+						
+					if is_good_swap:
+						number_Grid.set_cell(shuffled_coordinate_array[i], potential_id, Vector2i(0,0))
+						print(shuffled_coordinate_array[i])
+						print(potential_id)
+						number_Grid.set_cell(shuffled_coordinate_array[j], current_id, Vector2i(0,0))
+						print(shuffled_coordinate_array[j])
+						print(current_id)
+						
 func validate_number_grid(coords: Array[Vector2i]) -> bool:
 	for i in coords.size():
-		var id = number_Grid.get_cell_source_id(coords[i])
-		var neighbors = get_neighbors(number_Grid, coords[i])
-		for neighbor in neighbors:
-			var neighbor_index = coords.find(neighbor)
-			if neighbor_index == -1:
-				continue
-			var neighbor_id = number_Grid.get_cell_source_id(coords[neighbor_index])
-			if neighbor_id == id:
-				return false
-			if (id == 6 or id == 8) and (neighbor_id == 6 or neighbor_id == 8):
-				return false
+		var number_id = number_Grid.get_cell_source_id(coords[i])
+		var neighbors = number_Grid.get_surrounding_cells(coords[i])
+		if number_id in neighbors:
+			return false
+		if ((number_id == 6 or number_id == 8) and (6 in neighbors or 8 in neighbors)):
+			return false
 	return true
 
 func _ready() -> void:
-	var three_dimensional_coords = load_tile_map("res://Default.txt")
+	var three_dimensional_coords = load_tile_map("res://test (1).txt")
 	var two_dimensional_coords = convert_to_lower_vector(three_dimensional_coords)
 	var success = false
-	var max_attempts = 10
+	var max_attempts = 1
+
 	
 	place_preset_resources(three_dimensional_coords)
 	randomize_resources(three_dimensional_coords)

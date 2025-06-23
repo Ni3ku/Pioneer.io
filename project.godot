@@ -11,6 +11,10 @@ config_version=5
 [application]
 
 config/name="Pioneer.io"
-run/main_scene="uid://bsb3ptdccfr11"
-config/features=PackedStringArray("4.4", "Forward Plus")
+run/main_scene="res://Dice_roller.tscn"
+config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[rendering]
+
+viewport/transparent_background=true
