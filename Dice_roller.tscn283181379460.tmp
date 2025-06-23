@@ -70,17 +70,14 @@ sources/2 = SubResource("TileSetAtlasSource_2hrdi")
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_16eny"]
 texture = ExtResource("9_cea11")
 texture_region_size = Vector2i(64, 64)
-0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qrdgt"]
 texture = ExtResource("10_m5cnb")
 texture_region_size = Vector2i(64, 64)
-0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ova5y"]
 texture = ExtResource("11_4eqtc")
 texture_region_size = Vector2i(64, 64)
-0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6n5wx"]
 texture = ExtResource("9_8l20m")
@@ -105,23 +102,18 @@ texture_region_size = Vector2i(64, 64)
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jnlkn"]
 texture = ExtResource("16_dag8b")
 texture_region_size = Vector2i(64, 64)
-0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4hygs"]
 texture = ExtResource("17_fuw58")
 texture_region_size = Vector2i(64, 64)
-0:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v4rdc"]
 texture = ExtResource("18_omubv")
 texture_region_size = Vector2i(64, 64)
-0:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_m5cnb"]
 tile_shape = 3
 tile_size = Vector2i(64, 64)
-physics_layer_0/collision_layer = 2
-physics_layer_0/collision_mask = 2
 sources/2 = SubResource("TileSetAtlasSource_6n5wx")
 sources/5 = SubResource("TileSetAtlasSource_cea11")
 sources/3 = SubResource("TileSetAtlasSource_qkik5")
@@ -142,7 +134,6 @@ script = ExtResource("1_b4iy7")
 tile_set = SubResource("TileSet_b4iy7")
 
 [node name="NumberGrid" type="TileMapLayer" parent="Grid"]
-z_index = 1
 tile_set = SubResource("TileSet_m5cnb")
 
 [node name="DiceRoller" type="Node2D" parent="."]

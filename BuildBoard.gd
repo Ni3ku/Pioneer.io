@@ -1,11 +1,13 @@
 extends Node2D
 
-const brick = 1
-const ore = 2
-const sheep = 3
-const wheat = 4
-const wood = 5
-const desert = 6
+var resource_dictionary = {
+	1: "wood",
+ 	2: "brick",
+ 	3: "sheep",
+ 	4: "wheat",
+ 	5: "Ore",
+}
+
 const number_tile_set = [2,3,4,5,6,8,9,10,11,12]
 
 var neighbor_directions = [
@@ -24,31 +26,37 @@ var tile_grid = $HexGrid
 var number_Grid = $NumberGrid
 
 func load_tile_map(path: String):
-	var coordinates_array: Array[Vector2i]
 	var file = FileAccess.open(path, FileAccess.READ)
-	
-	while not file.eof_reached():
-		var line = file.get_line()
-		var piece = line.split(",")
-		if piece.size() == 2:
-			var x = int(piece[0])
-			var y = int(piece[1])
-			coordinates_array.append(Vector2i(x, y))
-		
-	return coordinates_array
+	var resource_array = str_to_var(file.get_line())
+	return resource_array
 
-func randomize_resources(coordinates_array: Array[Vector2i]):
-	var leftover = coordinates_array.size() % 5 - 1
-	var distrobution = floor(coordinates_array.size() / 5)
+func convert_to_lower_vector(vector3_array: Array[Vector3i]) -> Array[Vector2i]:
+	var vector2_array: Array[Vector2i]
+	for element in vector3_array:
+		vector2_array.append(Vector2i(element.x, element.y))
+	return vector2_array
+
+func place_preset_resources(coordinates_array: Array[Vector3i]):
+	for preset_resource in coordinates_array:
+		if preset_resource.z != 0:
+			tile_grid.set_cell(Vector2i(preset_resource.x, preset_resource.y), preset_resource.z, Vector2i(0,0))
+
+func randomize_resources(coordinates_array: Array[Vector3i]):
+	var undetermined_resource_vectors: Array[Vector2i]
+	for resource in coordinates_array:
+		if resource.z == 0:
+			undetermined_resource_vectors.append(Vector2i(resource.x, resource.y))
+
+	var leftover = undetermined_resource_vectors.size() % 5 - 1
+	var distrobution = floor(undetermined_resource_vectors.size() / 5)
 	var current_resource = 1
 	var preserved_coordinates: Array[Vector2i]
-	var shuffled_coordinates = coordinates_array.duplicate()
+	var shuffled_coordinates = undetermined_resource_vectors.duplicate()
 	shuffled_coordinates.shuffle()
-	for resource in 5:
-		for i in distrobution:
-			tile_grid.set_cell(shuffled_coordinates[i], current_resource, Vector2i(0,0))
+	for resource in resource_dictionary.keys():
+		for i in range(distrobution - 1, -1, -1):
+			tile_grid.set_cell(shuffled_coordinates[i], resource, Vector2i(0,0))
 			shuffled_coordinates.remove_at(i)
-		current_resource += 1
 	tile_grid.set_cell(shuffled_coordinates[0], 6, Vector2i(0,0))
 	shuffled_coordinates.remove_at(0)
 	var i = 1
@@ -56,21 +64,30 @@ func randomize_resources(coordinates_array: Array[Vector2i]):
 		tile_grid.set_cell(shuffled_coordinates[final_set], i, Vector2i(0,0))
 		i += 1
 
-func randomize_numbers(coordinates_array: Array[Vector2i]):
-	var overflow = coordinates_array.size() % 10 - 1
-	var number_distrobution = floor(coordinates_array.size() / 10)
-	var shuffled_coordinates = coordinates_array.duplicate()
+func randomize_numbers(coordinates_array: Array[Vector3i]):
+	for resource in range(coordinates_array.size() - 1, -1, -1):
+		if coordinates_array[resource].z == 6:
+			coordinates_array.remove_at(resource)
+	
+	var two_dimensional_coordinates_array = convert_to_lower_vector(coordinates_array)
+	
+	var overflow = two_dimensional_coordinates_array.size() % number_tile_set.size()
+	var number_distrobution = floor(two_dimensional_coordinates_array.size() / number_tile_set.size())
+	
+	var shuffled_coordinates = two_dimensional_coordinates_array.duplicate()
 	shuffled_coordinates.shuffle()
-	number_tile_set.shuffle()
+	var shuffled_number_set = number_tile_set.duplicate()
+	shuffled_number_set.shuffle()
+	
 	for i in range(number_distrobution):
-		for j in number_tile_set:
-			if tile_grid.get_cell_source_id(shuffled_coordinates[i]) != 6:
-				number_Grid.set_cell(shuffled_coordinates[i], j, Vector2i(0,0))
-			shuffled_coordinates.remove_at(i)
-	for i in range(overflow , -1, -1):
-		if tile_grid.get_cell_source_id(shuffled_coordinates[i]) != 6:
-			number_Grid.set_cell(shuffled_coordinates[i], number_tile_set[i], Vector2i(0,0))
-		shuffled_coordinates.remove_at(i)
+		for j in range(number_tile_set.size()):
+			if tile_grid.get_cell_source_id(shuffled_coordinates[0]) != 6:
+				number_Grid.set_cell(shuffled_coordinates[0], shuffled_number_set[j], Vector2i(0,0))
+			shuffled_coordinates.remove_at(0)
+	for i in range(overflow):
+		if tile_grid.get_cell_source_id(shuffled_coordinates[0]) != 6:
+			number_Grid.set_cell(shuffled_coordinates[0], number_tile_set[i], Vector2i(0,0))
+		shuffled_coordinates.remove_at(0)
 
 func get_neighbors(tilemap: TileMapLayer, coord: Vector2i):
 	var neighbors = []
@@ -146,15 +163,18 @@ func validate_number_grid(coords: Array[Vector2i]) -> bool:
 	return true
 
 func _ready() -> void:
-	var coords = load_tile_map("res://Default.txt")
+	var three_dimensional_coords = load_tile_map("res://Default.txt")
+	var two_dimensional_coords = convert_to_lower_vector(three_dimensional_coords)
 	var success = false
 	var max_attempts = 10
 	
+	place_preset_resources(three_dimensional_coords)
+	randomize_resources(three_dimensional_coords)
+	randomize_numbers(three_dimensional_coords)
+	
 	for i in range(max_attempts):
-		randomize_resources(coords)
-		randomize_numbers(coords)
-		sort_numbers(coords)
-		if validate_number_grid(coords):
+		sort_numbers(two_dimensional_coords)
+		if validate_number_grid(two_dimensional_coords):
 			success = true
 			break
 	
