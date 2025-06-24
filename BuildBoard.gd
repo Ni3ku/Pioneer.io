@@ -105,45 +105,41 @@ func sort_numbers(coordinates_array: Array[Vector2i]):
 			tile_ids.append(number_Grid.get_cell_source_id(coordinates_array[coord]))
 		else:
 			coordinates_array.remove_at(coord)
-			
-	var shuffled_coordinate_array= coordinates_array.duplicate()
-	shuffled_coordinate_array.shuffle()
 		
-	for i in range(tile_ids.size()):
+	for i in range(coordinates_array.size()):
 		var current_id = tile_ids[i]
-		var i_neighbours = number_Grid.get_surrounding_cells(shuffled_coordinate_array[i])
+		var i_neighbours = number_Grid.get_surrounding_cells(coordinates_array[i])
 		var i_nighbour_ids = []
 		
 		for i_neighbour in i_neighbours:
 			i_nighbour_ids.append(number_Grid.get_cell_source_id(i_neighbour))
 		
-		for i_nighbour_id in i_nighbour_ids:
-			if (i_nighbour_id == current_id or ((current_id == 6 or current_id == 8) and (i_nighbour_id == 6 or i_nighbour_id == 8))):
-				var is_good_swap = true
-			
-				for j in range(tile_ids.size()):
-						
-					var potential_id = tile_ids[j]
-					is_good_swap = true
-					
-					var j_neighbours = number_Grid.get_surrounding_cells(shuffled_coordinate_array[j])
-					var j_nighbour_ids = []
+		if (current_id in i_nighbour_ids or ((current_id == 6 or current_id == 8) and (6 in i_nighbour_ids or 8 in i_nighbour_ids))):
+			var is_good_swap = true
+		
+			for j in range(coordinates_array.size()):
+				
+				var potential_id = tile_ids[j]
+				var j_neighbours = number_Grid.get_surrounding_cells(coordinates_array[j])
+				var j_nighbour_ids = []
 
-					for j_neighbour in j_neighbours:
-						j_nighbour_ids.append(number_Grid.get_cell_source_id(j_neighbour))
+				for j_neighbour in j_neighbours:
+					j_nighbour_ids.append(number_Grid.get_cell_source_id(j_neighbour))
 						
-					if (potential_id in i_nighbour_ids or current_id in j_nighbour_ids):
-						is_good_swap = false
-						break
-						
-					if is_good_swap:
-						number_Grid.set_cell(shuffled_coordinate_array[i], potential_id, Vector2i(0,0))
-						print(shuffled_coordinate_array[i])
-						print(potential_id)
-						number_Grid.set_cell(shuffled_coordinate_array[j], current_id, Vector2i(0,0))
-						print(shuffled_coordinate_array[j])
-						print(current_id)
-						
+				if (potential_id in i_nighbour_ids or current_id in j_nighbour_ids):
+					is_good_swap = false
+					
+				if is_good_swap:
+					var temp = tile_ids[i]
+					tile_ids[i] = tile_ids[j]
+					tile_ids[j] = temp
+					print(tile_ids)
+					break
+					
+	print(coordinates_array)
+	for final_tile_id in range(tile_ids.size()):
+		number_Grid.set_cell(coordinates_array[final_tile_id], tile_ids[final_tile_id], Vector2i(0,0))
+			
 func validate_number_grid(coords: Array[Vector2i]) -> bool:
 	for i in coords.size():
 		var number_id = number_Grid.get_cell_source_id(coords[i])
