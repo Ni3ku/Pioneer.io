@@ -1,7 +1,7 @@
 [gd_scene load_steps=39 format=3 uid="uid://bsb3ptdccfr11"]
 
-[ext_resource type="Script" path="res://dice_roller.gd" id="1_6s4q2"]
-[ext_resource type="Script" path="res://BuildBoard.gd" id="1_b4iy7"]
+[ext_resource type="Script" uid="uid://blwti5vxhjua7" path="res://dice_roller.gd" id="1_6s4q2"]
+[ext_resource type="Script" uid="uid://eg8f0ksu4hl2" path="res://BuildBoard.gd" id="1_b4iy7"]
 [ext_resource type="Texture2D" uid="uid://mb6ts3pp2x4v" path="res://Tile.png" id="1_gbjce"]
 [ext_resource type="Texture2D" uid="uid://bnpknwwrqkw2m" path="res://Tile_Brick.png" id="2_e0mjt"]
 [ext_resource type="Texture2D" uid="uid://c36qtoa25kecs" path="res://Tile_Ore.png" id="3_hmc1a"]
@@ -142,6 +142,7 @@ script = ExtResource("1_b4iy7")
 tile_set = SubResource("TileSet_b4iy7")
 
 [node name="NumberGrid" type="TileMapLayer" parent="Grid"]
+unique_name_in_owner = true
 z_index = 1
 tile_set = SubResource("TileSet_m5cnb")
 
