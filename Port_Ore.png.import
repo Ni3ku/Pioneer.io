@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0h2sahk66ovx"
-path="res://.godot/imported/Tile_Wood.png-a2bcf0cd4d0b654722f3e36c367f6cbf.ctex"
+uid="uid://b5u8xh34gnje7"
+path="res://.godot/imported/Port_Ore.png-6f39f93701b0ad5af00d9045d94cdca6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Tile_Wood.png"
-dest_files=["res://.godot/imported/Tile_Wood.png-a2bcf0cd4d0b654722f3e36c367f6cbf.ctex"]
+source_file="res://Port_Ore.png"
+dest_files=["res://.godot/imported/Port_Ore.png-6f39f93701b0ad5af00d9045d94cdca6.ctex"]
 
 [params]
 

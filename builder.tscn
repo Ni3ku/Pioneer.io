@@ -1,0 +1,216 @@
+[gd_scene load_steps=32 format=3 uid="uid://cwfnvr4n7fg8h"]
+
+[ext_resource type="Script" uid="uid://d200o2ktjakb6" path="res://tileCLick.gd" id="1_h1ki1"]
+[ext_resource type="Texture2D" uid="uid://b5fedy5g2bxak" path="res://Tile_Random.png" id="1_l5ofj"]
+[ext_resource type="Texture2D" uid="uid://d0h2sahk66ovx" path="res://Tile_Wood.png" id="2_3l3ge"]
+[ext_resource type="Texture2D" uid="uid://bocwydk3t78t6" path="res://Port_Sheep.png" id="3_1iedm"]
+[ext_resource type="Texture2D" uid="uid://bkry3o6dvcsgt" path="res://Tile_Brick.png" id="3_u3nas"]
+[ext_resource type="Texture2D" uid="uid://cb8c4ri865gmc" path="res://Port_Wheat.png" id="4_cn3w5"]
+[ext_resource type="Texture2D" uid="uid://luu6br1xncg7" path="res://Tile_Sheep.png" id="4_ewt2b"]
+[ext_resource type="Texture2D" uid="uid://b5u8xh34gnje7" path="res://Port_Ore.png" id="5_3bdxq"]
+[ext_resource type="Texture2D" uid="uid://cgybgl86omrw2" path="res://Tile_Wheat.png" id="5_j0mst"]
+[ext_resource type="Texture2D" uid="uid://dt1uqwx8m4vbq" path="res://Port Select.png" id="6_1iedm"]
+[ext_resource type="Texture2D" uid="uid://bra2ks7i4fa51" path="res://Tile_Ore.png" id="6_7qxjf"]
+[ext_resource type="Texture2D" uid="uid://bgyf8x107j84r" path="res://Tile_Desert.png" id="7_1iedm"]
+[ext_resource type="Texture2D" uid="uid://c7tg7r5ehnb2d" path="res://Port_Brick.png" id="13_o6x4r"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_clihi"]
+texture = ExtResource("1_l5ofj")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cn3w5"]
+texture = ExtResource("2_3l3ge")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gcgou"]
+texture = ExtResource("3_1iedm")
+texture_region_size = Vector2i(64, 64)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n7uif"]
+texture = ExtResource("4_cn3w5")
+texture_region_size = Vector2i(64, 64)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_snrnk"]
+texture = ExtResource("5_3bdxq")
+texture_region_size = Vector2i(64, 64)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ve8qn"]
+texture = ExtResource("6_1iedm")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3bdxq"]
+texture = ExtResource("3_u3nas")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wsqv1"]
+texture = ExtResource("4_ewt2b")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yh0p0"]
+texture = ExtResource("5_j0mst")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_o6x4r"]
+texture = ExtResource("6_7qxjf")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yd55b"]
+texture = ExtResource("7_1iedm")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ou310"]
+resource_name = "Port_Random"
+texture = ExtResource("1_l5ofj")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nch85"]
+texture = ExtResource("13_o6x4r")
+texture_region_size = Vector2i(64, 64)
+
+[sub_resource type="TileSet" id="TileSet_l5ofj"]
+tile_shape = 3
+tile_size = Vector2i(64, 64)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_clihi")
+sources/1 = SubResource("TileSetAtlasSource_cn3w5")
+sources/6 = SubResource("TileSetAtlasSource_yd55b")
+sources/2 = SubResource("TileSetAtlasSource_3bdxq")
+sources/3 = SubResource("TileSetAtlasSource_wsqv1")
+sources/4 = SubResource("TileSetAtlasSource_yh0p0")
+sources/5 = SubResource("TileSetAtlasSource_o6x4r")
+sources/7 = SubResource("TileSetAtlasSource_ou310")
+sources/9 = SubResource("TileSetAtlasSource_nch85")
+sources/10 = SubResource("TileSetAtlasSource_gcgou")
+sources/11 = SubResource("TileSetAtlasSource_n7uif")
+sources/12 = SubResource("TileSetAtlasSource_snrnk")
+sources/13 = SubResource("TileSetAtlasSource_ve8qn")
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_clihi"]
+
+[sub_resource type="GDScript" id="GDScript_3uvuy"]
+
+[sub_resource type="GDScript" id="GDScript_3l3ge"]
+script/source = "extends CheckBox
+
+"
+
+[sub_resource type="TileSet" id="TileSet_ak5pp"]
+tile_shape = 3
+tile_layout = 1
+
+[node name="Builder" type="Node2D"]
+
+[node name="BoardMaker" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_l5ofj")
+script = ExtResource("1_h1ki1")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Random" type="CheckBox" parent="UI"]
+unique_name_in_owner = true
+offset_left = 1050.0
+offset_top = 330.0
+offset_right = 1143.0
+offset_bottom = 361.0
+button_group = SubResource("ButtonGroup_clihi")
+text = "Random"
+alignment = 2
+script = SubResource("GDScript_3uvuy")
+metadata/_edit_use_anchors_ = true
+
+[node name="Wood" type="CheckBox" parent="UI"]
+offset_left = 1050.0
+offset_top = 360.0
+offset_right = 1123.0
+offset_bottom = 391.0
+button_group = SubResource("ButtonGroup_clihi")
+text = "Wood"
+alignment = 2
+script = SubResource("GDScript_3uvuy")
+metadata/_edit_use_anchors_ = true
+
+[node name="Brick" type="CheckBox" parent="UI"]
+offset_left = 1050.0
+offset_top = 390.0
+offset_right = 1118.0
+offset_bottom = 421.0
+button_group = SubResource("ButtonGroup_clihi")
+text = "Brick"
+alignment = 2
+script = SubResource("GDScript_3uvuy")
+metadata/_edit_use_anchors_ = true
+
+[node name="Sheep" type="CheckBox" parent="UI"]
+offset_left = 1050.0
+offset_top = 420.0
+offset_right = 1126.0
+offset_bottom = 451.0
+button_group = SubResource("ButtonGroup_clihi")
+text = "Sheep"
+alignment = 2
+script = SubResource("GDScript_3uvuy")
+metadata/_edit_use_anchors_ = true
+
+[node name="Wheat" type="CheckBox" parent="UI"]
+offset_left = 1050.0
+offset_top = 450.0
+offset_right = 1129.0
+offset_bottom = 481.0
+button_group = SubResource("ButtonGroup_clihi")
+text = "Wheat"
+alignment = 2
+script = SubResource("GDScript_3uvuy")
+metadata/_edit_use_anchors_ = true
+
+[node name="Stone" type="CheckBox" parent="UI"]
+offset_left = 1050.0
+offset_top = 480.0
+offset_right = 1123.0
+offset_bottom = 511.0
+button_group = SubResource("ButtonGroup_clihi")
+text = "Stone"
+alignment = 2
+script = SubResource("GDScript_3uvuy")
+metadata/_edit_use_anchors_ = true
+
+[node name="Desert" type="CheckBox" parent="UI"]
+unique_name_in_owner = true
+offset_left = 1050.0
+offset_top = 510.0
+offset_right = 1130.0
+offset_bottom = 541.0
+button_group = SubResource("ButtonGroup_clihi")
+text = "Desert"
+alignment = 2
+script = SubResource("GDScript_3l3ge")
+metadata/_edit_use_anchors_ = true
+
+[node name="CheckButton" type="CheckButton" parent="UI"]
+offset_left = 1047.0
+offset_top = 300.0
+offset_right = 1091.0
+offset_bottom = 324.0
+text = "Port"
+alignment = 2
+
+[node name="Port Selector" type="TileMapLayer" parent="."]
+unique_name_in_owner = true
+tile_set = SubResource("TileSet_ak5pp")
+
+[connection signal="toggled" from="UI/Random" to="BoardMaker" method="_on_random_toggled"]
+[connection signal="toggled" from="UI/Wood" to="BoardMaker" method="_on_wood_toggled"]
+[connection signal="toggled" from="UI/Brick" to="BoardMaker" method="_on_brick_toggled"]
+[connection signal="toggled" from="UI/Sheep" to="BoardMaker" method="_on_sheep_toggled"]
+[connection signal="toggled" from="UI/Wheat" to="BoardMaker" method="_on_wheat_toggled"]
+[connection signal="toggled" from="UI/Stone" to="BoardMaker" method="_on_stone_toggled"]
+[connection signal="toggled" from="UI/Desert" to="BoardMaker" method="_on_desert_toggled"]
+[connection signal="toggled" from="UI/CheckButton" to="BoardMaker" method="PortToggle"]
